@@ -1,0 +1,101 @@
+import Link from "next/link";
+
+import { WinwinLogo } from "@/components/winwin-logo";
+
+const aboutLinks = [
+  { href: "/about", label: "About Us" },
+  { href: "/#features", label: "Features" },
+  { href: "/careers", label: "Career" },
+  { href: "/pricing", label: "Pricing" },
+];
+
+const resourceLinks = [
+  { href: "/blog", label: "Blog & Article" },
+  { href: "/integrations", label: "Integration" },
+  { href: "/contact", label: "Contact Us" },
+  { href: "/license", label: "License" },
+];
+
+export function Footer() {
+  return (
+    <footer className="border-t-2 border-blue-500 bg-[#0b1131] text-white">
+      <div className="mx-auto max-w-7xl px-6 py-14 lg:px-12">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+          <div>
+            <WinwinLogo size="lg" />
+          </div>
+
+          <div>
+            <p className="mb-5 text-sm text-slate-400">About</p>
+            <ul className="space-y-3">
+              {aboutLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-white/80 transition-colors hover:text-white"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <p className="mb-5 text-sm text-slate-400">Resources</p>
+            <ul className="space-y-3">
+              {resourceLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-white/80 transition-colors hover:text-white"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <p className="mb-5 text-sm text-slate-400">Get in touch</p>
+            <a
+              href="mailto:say-hello@booklyne.com"
+              className="text-sm text-white/80 transition-colors hover:text-white"
+            >
+              say-hello@Booklyne.com
+            </a>
+            <div className="mt-5 flex items-center gap-2.5">
+              {[0, 1, 2].map((index) => (
+                <a
+                  key={index}
+                  href="#"
+                  className="size-6 rounded-full bg-white transition-opacity hover:opacity-80"
+                  aria-label="Social link"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-16 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-xs text-slate-500">© 2025 Booklyne, Inc.</p>
+          <div className="flex items-center gap-6">
+            <Link
+              href="/privacy"
+              className="text-xs text-slate-500 transition-colors hover:text-white/80"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href="/changelog"
+              className="text-xs text-slate-500 transition-colors hover:text-white/80"
+            >
+              Changelog
+            </Link>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
