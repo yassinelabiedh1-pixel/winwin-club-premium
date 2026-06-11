@@ -36,19 +36,20 @@ export function Navbar({ variant }: NavbarProps) {
   }, []);
 
   return (
-    <header
-      className={cn(
-        "fixed top-0 left-0 z-50 w-full transition-[background-color,backdrop-filter,border-color,box-shadow] duration-300",
-        isScrolled
-          ? isDark
-            ? "border-b border-white/10 bg-[#0A0E27]/75 shadow-sm backdrop-blur-md"
-            : "border-b border-neutral-200/60 bg-white/75 shadow-sm backdrop-blur-md"
-          : "border-b border-transparent bg-transparent"
-      )}
-    >
+    <header className="fixed top-0 left-0 z-50 w-full">
+      <div
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute inset-x-0 top-0 h-[72px] transition-opacity duration-300",
+          isScrolled ? "opacity-100" : "opacity-0",
+          isDark
+            ? "bg-[linear-gradient(to_bottom,rgba(3,5,16,0.92)_0%,rgba(5,7,22,0.55)_62%,rgba(10,14,39,0.18)_84%,transparent_100%)]"
+            : "bg-[linear-gradient(to_bottom,rgba(197,58,70,0.38)_0%,rgba(197,58,70,0.18)_62%,rgba(197,58,70,0.06)_84%,transparent_100%)]"
+        )}
+      />
       <div
         className={cn(
-          "relative flex h-[72px] items-center justify-between",
+          "relative z-10 flex h-[72px] items-center justify-between",
           siteContainerClass
         )}
       >
