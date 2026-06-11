@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/accordion";
 import { siteContainerClass } from "@/lib/layout";
 import { cn } from "@/lib/utils";
+import { ScrollReveal } from "@/components/scroll-reveal";
 
 const faqs = [
   {
@@ -59,7 +60,7 @@ export function ContactFaq() {
           "grid grid-cols-1 gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16"
         )}
       >
-        <div className="lg:pt-1">
+        <ScrollReveal className="lg:pt-1">
           <h2 className="max-w-sm text-[2rem] font-semibold leading-[1.15] tracking-tight text-[#0A0E27] lg:text-[2.25rem]">
             Quick answers before you reach out
           </h2>
@@ -67,9 +68,10 @@ export function ContactFaq() {
             Got something on your mind? Check below — or just send us a message,
             we&apos;ll take it from there.
           </p>
-        </div>
+        </ScrollReveal>
 
-        <Accordion defaultValue={["visit"]} className="flex w-full flex-col gap-4">
+        <ScrollReveal delay={0.12} direction="right">
+          <Accordion defaultValue={["visit"]} className="flex w-full flex-col gap-4">
           {faqs.map((faq) => (
             <AccordionItem
               key={faq.id}
@@ -94,7 +96,8 @@ export function ContactFaq() {
               </AccordionContent>
             </AccordionItem>
           ))}
-        </Accordion>
+          </Accordion>
+        </ScrollReveal>
       </div>
     </section>
   );

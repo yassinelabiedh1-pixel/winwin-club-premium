@@ -4,6 +4,7 @@ import { Star } from "lucide-react";
 
 import { siteContainerClass } from "@/lib/layout";
 import { cn } from "@/lib/utils";
+import { ScrollReveal } from "@/components/scroll-reveal";
 
 const testimonials = [
   {
@@ -139,27 +140,31 @@ function MarqueeRow({
   );
 }
 
-export function ContactTestimonials() {
+export function ContactTestimonials({ showHeader = true }: { showHeader?: boolean }) {
   const rowOne = testimonials.slice(0, 4);
   const rowTwo = testimonials.slice(4, 8);
 
   return (
     <section className="overflow-hidden bg-white pb-20 lg:pb-28">
-      <div className={cn(siteContainerClass)}>
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-[2rem] font-semibold leading-[1.15] tracking-tight text-[#0A0E27] lg:text-[2.25rem]">
-            Still unsure? Here&apos;s what our members say.
-          </h2>
-          <p className="mt-5 text-[15px] leading-[1.65] text-neutral-500">
-            Real words from people who booked a tour — and never looked back.
-          </p>
-        </div>
-      </div>
+      {showHeader && (
+        <ScrollReveal className={cn(siteContainerClass)}>
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-[2rem] font-semibold leading-[1.15] tracking-tight text-[#0A0E27] lg:text-[2.25rem]">
+              Still unsure? Here&apos;s what our members say.
+            </h2>
+            <p className="mt-5 text-[15px] leading-[1.65] text-neutral-500">
+              Real words from people who booked a tour — and never looked back.
+            </p>
+          </div>
+        </ScrollReveal>
+      )}
 
-      <div className="mt-14 w-full space-y-4">
-        <MarqueeRow items={rowOne} direction="right" />
-        <MarqueeRow items={rowTwo} direction="left" offset />
-      </div>
+      <ScrollReveal delay={showHeader ? 0.1 : 0}>
+        <div className={cn("w-full space-y-4", showHeader && "mt-14")}>
+          <MarqueeRow items={rowOne} direction="right" />
+          <MarqueeRow items={rowTwo} direction="left" offset />
+        </div>
+      </ScrollReveal>
     </section>
   );
 }

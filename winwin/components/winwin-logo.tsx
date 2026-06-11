@@ -6,10 +6,16 @@ import { cn } from "@/lib/utils";
 type WinwinLogoProps = {
   className?: string;
   size?: "default" | "lg";
+  variant?: "dark" | "light";
 };
 
-export function WinwinLogo({ className, size = "default" }: WinwinLogoProps) {
+export function WinwinLogo({
+  className,
+  size = "default",
+  variant = "dark",
+}: WinwinLogoProps) {
   const isLarge = size === "lg";
+  const isDark = variant === "dark";
 
   return (
     <Link
@@ -28,7 +34,8 @@ export function WinwinLogo({ className, size = "default" }: WinwinLogoProps) {
         priority
         aria-hidden
         className={cn(
-          "shrink-0 object-contain mix-blend-lighten",
+          "shrink-0 object-contain",
+          isDark && "mix-blend-lighten",
           isLarge ? "size-11" : "size-10"
         )}
       />
