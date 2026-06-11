@@ -26,7 +26,7 @@ export function Navbar({ variant = "dark" }: NavbarProps) {
     <header className="relative w-full">
       <div
         className={cn(
-          "relative flex h-[72px] items-center justify-between",
+          "relative flex h-16 items-center justify-between sm:h-[72px]",
           siteContainerClass
         )}
       >

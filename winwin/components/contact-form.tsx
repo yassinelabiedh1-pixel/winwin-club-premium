@@ -21,7 +21,7 @@ const helpTopics = [
 ];
 
 const fieldClassName =
-  "h-12 rounded-lg border-white/[0.08] bg-[#1A1F45] px-4 text-[15px] text-white placeholder:text-white/30 focus-visible:border-white/20 focus-visible:ring-white/10";
+  "h-12 rounded-lg border-white/[0.08] bg-[#1A1F45] px-4 text-base text-white placeholder:text-white/30 focus-visible:border-white/20 focus-visible:ring-white/10 sm:text-[15px]";
 
 const selectContentClassName =
   "rounded-xl border border-white/10 bg-[#12162E]/95 p-1.5 text-white shadow-[0_24px_60px_-16px_rgba(0,0,0,0.65)] ring-1 ring-white/[0.06] backdrop-blur-xl";
@@ -31,8 +31,8 @@ const selectItemClassName =
 
 export function ContactForm() {
   return (
-    <form className="w-full" onSubmit={(event) => event.preventDefault()}>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <form className="w-full min-w-0" onSubmit={(event) => event.preventDefault()}>
+      <div className="grid grid-cols-1 gap-4 min-[480px]:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="name" className="text-[13px] font-normal text-white/50">
             Name
@@ -98,7 +98,7 @@ export function ContactForm() {
           name="message"
           placeholder="Your message..."
           rows={5}
-          className="min-h-[132px] resize-none rounded-lg border-white/[0.08] bg-[#1A1F45] px-4 py-3 text-[15px] text-white placeholder:text-white/30 focus-visible:border-white/20 focus-visible:ring-white/10"
+          className="min-h-[120px] resize-none rounded-lg border-white/[0.08] bg-[#1A1F45] px-4 py-3 text-base text-white placeholder:text-white/30 focus-visible:border-white/20 focus-visible:ring-white/10 sm:min-h-[132px] sm:text-[15px]"
         />
       </div>
 

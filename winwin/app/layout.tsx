@@ -12,6 +12,11 @@ export const metadata: Metadata = {
   description: "Premium coworking space for founders and creators.",
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{

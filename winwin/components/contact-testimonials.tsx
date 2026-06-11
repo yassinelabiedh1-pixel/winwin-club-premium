@@ -77,7 +77,7 @@ function TestimonialCard({
   return (
     <article
       className={cn(
-        "flex w-[300px] shrink-0 flex-col rounded-xl border border-[#EEEEEE] bg-white p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)] sm:w-[320px] lg:p-7",
+        "flex w-[min(85vw,280px)] shrink-0 flex-col rounded-xl border border-[#EEEEEE] bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)] sm:w-[300px] sm:p-6 lg:w-[320px] lg:p-7",
         className
       )}
     >
@@ -119,7 +119,7 @@ function MarqueeRow({
   const loop = [...items, ...items];
 
   return (
-    <div className={cn("w-full overflow-hidden", offset && "pl-8 sm:pl-16")}>
+    <div className={cn("w-full overflow-hidden", offset && "pl-4 sm:pl-16")}>
       <div
         className={cn(
           "flex w-max gap-4 will-change-transform",
@@ -144,19 +144,19 @@ export function ContactTestimonials() {
   const rowTwo = testimonials.slice(4, 8);
 
   return (
-    <section className="overflow-hidden bg-white pb-20 lg:pb-28">
+    <section className="overflow-x-hidden bg-white pb-14 sm:pb-20 lg:pb-28">
       <div className={cn(siteContainerClass)}>
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-[2rem] font-semibold leading-[1.15] tracking-tight text-[#0A0E27] lg:text-[2.25rem]">
+          <h2 className="text-[1.75rem] font-semibold leading-[1.15] tracking-tight text-[#0A0E27] sm:text-[2rem] lg:text-[2.25rem]">
             Still unsure? Here&apos;s what our members say.
           </h2>
-          <p className="mt-5 text-[15px] leading-[1.65] text-neutral-500">
+          <p className="mt-4 px-1 text-[15px] leading-[1.65] text-neutral-500 sm:mt-5 sm:px-0">
             Real words from people who booked a tour — and never looked back.
           </p>
         </div>
       </div>
 
-      <div className="mt-14 w-full space-y-4">
+      <div className="mt-10 w-full space-y-3 sm:mt-14 sm:space-y-4">
         <MarqueeRow items={rowOne} direction="right" />
         <MarqueeRow items={rowTwo} direction="left" offset />
       </div>
