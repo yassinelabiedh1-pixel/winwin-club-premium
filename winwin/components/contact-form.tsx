@@ -34,8 +34,16 @@ const selectContentClassName =
 const selectItemClassName =
   "min-h-10 rounded-lg px-3 py-2.5 text-[15px] text-white/75 transition-colors outline-none data-highlighted:bg-white/10 data-highlighted:text-white focus:bg-white/10 focus:text-white data-selected:bg-white/[0.07] data-selected:text-white [&_svg]:text-white";
 
+const errorMessages: Record<string, string> = {
+  too_fast: "That was very quick. Please wait a few seconds and try again.",
+  too_many_links:
+    "Please use no more than 2 links in your message, and none in your name.",
+  rate_limited:
+    "You've sent several messages recently. Please try again later, or",
+};
+
 export function ContactForm() {
-  const { status, handleSubmit, reset } = useFormSubmit();
+  const { status, errorCode, handleSubmit, reset } = useFormSubmit();
 
   if (status === "success") {
     return (
@@ -134,6 +142,7 @@ export function ContactForm() {
           id="message"
           name="message"
           required
+          minLength={10}
           maxLength={5000}
           placeholder="Your message..."
           rows={5}
@@ -151,16 +160,24 @@ export function ContactForm() {
 
       {status === "error" && (
         <p role="alert" className="mt-4 text-center text-sm text-white/80">
-          We couldn&apos;t send your message. Please try again, or{" "}
-          <a
-            href={CLUB_WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-semibold underline underline-offset-4"
-          >
-            message us on WhatsApp
-          </a>
-          .
+          {errorCode === "too_fast" || errorCode === "too_many_links" ? (
+            errorMessages[errorCode]
+          ) : (
+            <>
+              {errorCode === "rate_limited"
+                ? errorMessages.rate_limited
+                : "We couldn't send your message. Please try again, or"}{" "}
+              <a
+                href={CLUB_WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold underline underline-offset-4"
+              >
+                message us on WhatsApp
+              </a>
+              .
+            </>
+          )}
         </p>
       )}
 
