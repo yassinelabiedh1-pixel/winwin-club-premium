@@ -29,7 +29,7 @@ const allHourlyRates = [...firstVisitRates, ...regularRates];
 
 const sectionLinks = [
   { href: "#monthly", label: "Monthly" },
-  { href: "#days", label: "Days" },
+  { href: "#days", label: "Days Pack" },
   { href: "#hourly", label: "Hourly" },
 ];
 
@@ -119,7 +119,7 @@ function PricingHero({ tier }: { tier: Tier }) {
     },
     {
       href: "#days",
-      title: "Days",
+      title: "Days Pack",
       text: "A set number of days, used when you need them",
       amount: lowestPrice(daysPasses, tier),
     },
@@ -226,19 +226,13 @@ function StickyControls({
 }
 
 function PassFinder({ tier }: { tier: Tier }) {
-  const [fullAccess, morning, extended, night] = monthlyPasses;
+  const [fullAccess, extended, night, morning] = monthlyPasses;
   const items = [
     {
       need: "I'm here most days",
       answer: fullAccess.name,
       href: "#monthly",
       price: `${formatPrice(fullAccess.prices[tier])} /month`,
-    },
-    {
-      need: "I work in the mornings",
-      answer: morning.name,
-      href: "#monthly",
-      price: `${formatPrice(morning.prices[tier])} /month`,
     },
     {
       need: "I work afternoons and evenings",
@@ -253,8 +247,14 @@ function PassFinder({ tier }: { tier: Tier }) {
       price: `${formatPrice(night.prices[tier])} /month`,
     },
     {
+      need: "I work in the mornings",
+      answer: morning.name,
+      href: "#monthly",
+      price: `${formatPrice(morning.prices[tier])} /month`,
+    },
+    {
       need: "I come a few days at a time",
-      answer: "Days Passes",
+      answer: "Days Pack Pass",
       href: "#days",
       price: `From ${formatPrice(lowestPrice(daysPasses, tier))}`,
     },
@@ -442,7 +442,7 @@ function DaysSection({ tier }: { tier: Tier }) {
   return (
     <PricingCategory
       id="days"
-      title="Days Passes"
+      title="Days Pack Pass"
       description="Use your days whenever you like. They don't have to be consecutive. Each pass can be used throughout its validity period, starting from the activation date."
     >
       <ul className="divide-y divide-neutral-200 border-t border-neutral-200">
@@ -532,6 +532,36 @@ function HourlySection({ tier }: { tier: Tier }) {
   );
 }
 
+const goodToKnow = [
+  { label: "Included with every pass", value: "Wi-Fi and coffee" },
+  { label: "Pausing your plan", value: "Up to 7 days" },
+  { label: "Minimum age", value: "18, or case by case on application" },
+];
+
+function GoodToKnowSection() {
+  return (
+    <PricingCategory
+      id="good-to-know"
+      title="Good to know"
+      description="A few things worth checking before you join."
+    >
+      <ul className="divide-y divide-neutral-200 border-t border-neutral-200">
+        {goodToKnow.map((item) => (
+          <li
+            key={item.label}
+            className="flex items-center justify-between gap-4 py-3.5"
+          >
+            <span className="text-sm text-neutral-700">{item.label}</span>
+            <span className="text-right text-sm font-semibold text-neutral-950">
+              {item.value}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </PricingCategory>
+  );
+}
+
 function PricingCta() {
   return (
     <section>
@@ -579,6 +609,7 @@ export function PricingPageContent() {
         <MonthlySection tier={tier} />
         <DaysSection tier={tier} />
         <HourlySection tier={tier} />
+        <GoodToKnowSection />
         <PricingCta />
       </div>
     </>

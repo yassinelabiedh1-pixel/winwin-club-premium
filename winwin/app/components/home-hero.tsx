@@ -10,17 +10,17 @@ import { cn } from "@/lib/utils";
 
 export function HomeHero() {
   return (
-    <div className="flex w-full flex-1 items-center py-8 lg:py-12">
+    <div className="flex w-full flex-1 items-center pt-6 pb-10 lg:py-12">
       <div
         className={cn(
           siteContainerClass,
-          "grid w-full grid-cols-1 gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-8 xl:gap-16"
+          "grid w-full grid-cols-1 gap-8 lg:grid-cols-12 lg:items-stretch lg:gap-8 xl:gap-16"
         )}
       >
-        <div className="flex flex-col justify-start space-y-8 lg:col-span-5 lg:min-h-[472px] lg:justify-center">
+        <div className="flex flex-col justify-start space-y-6 lg:col-span-5 lg:min-h-[472px] lg:justify-center lg:space-y-8">
           <ScrollReveal>
             <div>
-              <h1 className="text-20 mb-6 text-[2rem] font-bold leading-[1.1] tracking-tight text-neutral-950 sm:text-[2.4rem] lg:text-[2.8rem]">
+              <h1 className="mb-4 text-[2rem] font-bold leading-[1.1] tracking-tight text-neutral-950 sm:text-[2.4rem] lg:mb-6 lg:text-[2.8rem]">
                 A <span className="text-[#7C2314]">24/7</span> Open Space <br />
                 For <span className="text-[#7C2314]">Professional</span>
               </h1>
@@ -53,14 +53,14 @@ export function HomeHero() {
           delay={0.12}
           direction="right"
         >
-          <div className="grid h-[420px] w-full flex-1 grid-cols-12 gap-4 sm:h-[500px] lg:h-full lg:min-h-[472px]">
-            <div className="relative col-span-8 h-full overflow-hidden rounded-3xl bg-neutral-100 shadow-sm">
+          <div className="grid w-full grid-cols-2 gap-3 sm:h-[460px] sm:grid-cols-12 sm:gap-4 lg:h-full lg:min-h-[472px] lg:flex-1">
+            <div className="relative col-span-2 aspect-[4/3] overflow-hidden rounded-3xl bg-neutral-100 shadow-sm sm:col-span-8 sm:aspect-auto sm:h-full">
               <Image
                 src="/img1.webp"
                 alt="WinWin Space main area"
                 fill
                 className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 66vw"
+                sizes="(max-width: 640px) 100vw, 66vw"
                 priority
               />
               <div className="absolute top-4 right-4 cursor-pointer rounded-full bg-black/30 p-2 text-white backdrop-blur-md transition hover:bg-black/50">
@@ -94,14 +94,14 @@ export function HomeHero() {
               */}
             </div>
 
-            <div className="col-span-4 flex h-full flex-col gap-4">
-              <div className="relative flex-1 overflow-hidden rounded-3xl bg-neutral-100 shadow-sm">
+            <div className="col-span-2 grid grid-cols-2 gap-3 sm:col-span-4 sm:flex sm:h-full sm:flex-col sm:gap-4">
+              <div className="relative aspect-square overflow-hidden rounded-3xl bg-neutral-100 shadow-sm sm:aspect-auto sm:flex-1">
                 <Image
                   src="/img2.webp"
                   alt="Team work setting"
                   fill
                   className="object-cover"
-                  sizes="(max-width: 1024px) 50vw, 33vw"
+                  sizes="(max-width: 640px) 50vw, 33vw"
                 />
                 {/* Pricing hidden for now.
                 <span className="shrink-0 rounded-lg bg-white px-2 py-0.5 text-[0.65rem] font-bold text-black">
@@ -110,13 +110,13 @@ export function HomeHero() {
                 */}
               </div>
 
-              <div className="relative flex-1 overflow-hidden rounded-3xl bg-neutral-100 shadow-sm">
+              <div className="relative aspect-square overflow-hidden rounded-3xl bg-neutral-100 shadow-sm sm:aspect-auto sm:flex-1">
                 <Image
                   src="/img3.webp"
                   alt="Silent library workspace"
                   fill
                   className="object-cover"
-                  sizes="(max-width: 1024px) 50vw, 33vw"
+                  sizes="(max-width: 640px) 50vw, 33vw"
                 />
                 {/* Pricing hidden for now.
                 <span className="shrink-0 rounded-lg bg-white px-2 py-0.5 text-[0.65rem] font-bold text-black">

@@ -1,5 +1,6 @@
 "use client";
 
+import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -7,6 +8,7 @@ import { useEffect, useState } from "react";
 import { WinwinLogo } from "@/components/winwin-logo";
 import { siteContainerClass } from "@/lib/layout";
 import { cn } from "@/lib/utils";
+
 const navLinks = [
   { href: "/", label: "Overview" },
   { href: "/contact", label: "Contact" },
@@ -20,6 +22,7 @@ type NavbarProps = {
 export function Navbar({ variant }: NavbarProps) {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const resolvedVariant =
     variant ?? (pathname === "/contact" ? "dark" : "light");
   const isDark = resolvedVariant === "dark";
@@ -33,6 +36,17 @@ export function Navbar({ variant }: NavbarProps) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsMenuOpen(false);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isMenuOpen]);
 
   return (
     <header className="pointer-events-none fixed top-0 left-0 z-50 w-full">
@@ -78,7 +92,63 @@ export function Navbar({ variant }: NavbarProps) {
             );
           })}
         </nav>
+
+        <button
+          type="button"
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isMenuOpen}
+          aria-controls="mobile-menu"
+          onClick={() => setIsMenuOpen((open) => !open)}
+          className={cn(
+            "-mr-2 flex size-10 items-center justify-center rounded-full md:hidden",
+            isDark ? "text-white" : "text-neutral-950"
+          )}
+        >
+          {isMenuOpen ? (
+            <X aria-hidden className="size-6" />
+          ) : (
+            <Menu aria-hidden className="size-6" />
+          )}
+        </button>
       </div>
+
+      {isMenuOpen && (
+        <nav
+          id="mobile-menu"
+          aria-label="Mobile"
+          className={cn(
+            "pointer-events-auto mx-auto mt-2 w-[calc(100%-2rem)] rounded-2xl border p-2 shadow-lg backdrop-blur-xl md:hidden",
+            isDark
+              ? "border-white/10 bg-[#0A0E27]/95 shadow-black/20"
+              : "border-neutral-200/70 bg-white/95 shadow-neutral-900/5"
+          )}
+        >
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                aria-current={isActive ? "page" : undefined}
+                onClick={() => setIsMenuOpen(false)}
+                className={cn(
+                  "block rounded-xl px-4 py-3 text-[15px] font-medium",
+                  isDark
+                    ? isActive
+                      ? "bg-white/10 text-white"
+                      : "text-white/80"
+                    : isActive
+                      ? "bg-neutral-100 text-neutral-950"
+                      : "text-neutral-600"
+                )}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
+        </nav>
+      )}
     </header>
   );
 }

@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { FormHoneypot } from "@/components/form-honeypot";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,11 +14,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { CLUB_MAPS_URL } from "@/lib/site";
+import { CLUB_WHATSAPP_URL } from "@/lib/site";
 import { useFormSubmit } from "@/lib/use-form-submit";
 
 const helpTopics = [
-  { value: "Book a tour", label: "Book a tour" },
+  { value: "Visit the club", label: "Visit the club" },
   { value: "Membership & pricing", label: "Membership & pricing" },
   { value: "Events & community", label: "Events & community" },
   { value: "Partnership inquiry", label: "Partnership inquiry" },
@@ -33,7 +35,7 @@ const selectItemClassName =
   "min-h-10 rounded-lg px-3 py-2.5 text-[15px] text-white/75 transition-colors outline-none data-highlighted:bg-white/10 data-highlighted:text-white focus:bg-white/10 focus:text-white data-selected:bg-white/[0.07] data-selected:text-white [&_svg]:text-white";
 
 export function ContactForm() {
-  const { status, handleSubmit, reset } = useFormSubmit("contact");
+  const { status, handleSubmit, reset } = useFormSubmit();
 
   if (status === "success") {
     return (
@@ -151,16 +153,24 @@ export function ContactForm() {
         <p role="alert" className="mt-4 text-center text-sm text-white/80">
           We couldn&apos;t send your message. Please try again, or{" "}
           <a
-            href={CLUB_MAPS_URL}
+            href={CLUB_WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="font-semibold underline underline-offset-4"
           >
-            visit us at the club
+            message us on WhatsApp
           </a>
           .
         </p>
       )}
+
+      <p className="mt-4 text-center text-xs text-white/40">
+        By sending this message, you agree to our{" "}
+        <Link href="/privacy" className="underline underline-offset-4">
+          Privacy Policy
+        </Link>
+        .
+      </p>
     </form>
   );
 }

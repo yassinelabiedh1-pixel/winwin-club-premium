@@ -1,12 +1,32 @@
 "use client";
 
-import { MapPin } from "lucide-react";
+import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 
 import { ContactForm } from "@/components/contact-form";
+import { FacebookIcon, InstagramIcon } from "@/components/icons";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { siteContainerClass } from "@/lib/layout";
-import { CLUB_MAPS_URL } from "@/lib/site";
+import {
+  CLUB_ADDRESS,
+  CLUB_EMAIL,
+  CLUB_FACEBOOK_URL,
+  CLUB_INSTAGRAM_URL,
+  CLUB_MAPS_URL,
+  CLUB_PHONE_DISPLAY,
+  CLUB_PHONE_URL,
+  CLUB_WHATSAPP_URL,
+} from "@/lib/site";
 import { cn } from "@/lib/utils";
+
+const contactDetails = [
+  { icon: Mail, label: CLUB_EMAIL, href: `mailto:${CLUB_EMAIL}` },
+  { icon: Phone, label: CLUB_PHONE_DISPLAY, href: CLUB_PHONE_URL },
+  { icon: MessageCircle, label: "Message us on WhatsApp", href: CLUB_WHATSAPP_URL },
+  { icon: MapPin, label: CLUB_ADDRESS, href: CLUB_MAPS_URL },
+  { icon: Clock, label: "Open 24/7" },
+  { icon: InstagramIcon, label: "Instagram", href: CLUB_INSTAGRAM_URL },
+  { icon: FacebookIcon, label: "Facebook", href: CLUB_FACEBOOK_URL },
+];
 
 export function ContactHero() {
   return (
@@ -21,19 +41,44 @@ export function ContactHero() {
           Let&apos;s connect
         </h1>
         <p className="mt-5 max-w-[340px] text-[15px] leading-[1.65] text-white/55">
-          Got a question? Want to book a tour or just say hi? We&apos;d love to
-          hear from you.
+          Got a question? Want to visit or just say hi? We&apos;d love to hear
+          from you.
         </p>
 
-        <a
-          href={CLUB_MAPS_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-12 flex items-center gap-3.5 text-[15px] text-white/85 transition-colors hover:text-white"
-        >
-          <MapPin aria-hidden className="size-[18px] shrink-0 text-white/55" />
-          Find us on Google Maps
-        </a>
+        <ul className="mt-12 space-y-5">
+          {contactDetails.map((item) => {
+            const Icon = item.icon;
+            const content = (
+              <span className="flex items-center gap-3.5 text-[15px] text-white/85">
+                <Icon className="size-[18px] shrink-0 text-white/55" />
+                {item.label}
+              </span>
+            );
+
+            return (
+              <li key={item.label}>
+                {item.href ? (
+                  <a
+                    href={item.href}
+                    className="transition-colors hover:text-white"
+                    target={
+                      item.href.startsWith("http") ? "_blank" : undefined
+                    }
+                    rel={
+                      item.href.startsWith("http")
+                        ? "noopener noreferrer"
+                        : undefined
+                    }
+                  >
+                    {content}
+                  </a>
+                ) : (
+                  content
+                )}
+              </li>
+            );
+          })}
+        </ul>
       </ScrollReveal>
 
       <ScrollReveal

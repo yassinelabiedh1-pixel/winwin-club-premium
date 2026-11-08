@@ -71,10 +71,10 @@ function getPreview(variant: PlanVariant, tier: Tier): PreviewContent {
 
   if (variant === "days") {
     return {
-      title: "Days Passes",
+      title: "Days Pack Pass",
       description: "Buy your days, then use them when you need them.",
       lowest: lowestPrice(daysPasses, tier),
-      cta: "See days passes",
+      cta: "See days pack passes",
       href: "/pricing#days",
       rows: daysPasses.map((pass) => ({
         id: pass.id,
@@ -85,8 +85,8 @@ function getPreview(variant: PlanVariant, tier: Tier): PreviewContent {
     };
   }
 
-  const regularShortest = regularRates[0];
-  const regularLongest = regularRates[regularRates.length - 1];
+  const regularHighest = regularRates[0];
+  const regularLowest = regularRates[regularRates.length - 1];
 
   return {
     title: "Hourly Passes",
@@ -101,7 +101,7 @@ function getPreview(variant: PlanVariant, tier: Tier): PreviewContent {
         detail: rate.duration,
         price: rate.prices[tier],
       })),
-      ...[regularShortest, regularLongest].map((rate) => ({
+      ...[regularHighest, regularLowest].map((rate) => ({
         id: rate.id,
         label: "Regular customers",
         detail: rate.duration,
@@ -387,7 +387,7 @@ export function PricingSection() {
           />
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:items-stretch">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:items-stretch">
           <ScrollReveal delay={0.05}>
             <PricingFlipCard tier={tier} variant="monthly" flipMs={flipMs} />
           </ScrollReveal>

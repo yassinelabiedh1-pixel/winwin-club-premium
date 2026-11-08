@@ -18,6 +18,8 @@ const SLIDE_MS = 950;
 const GAP_PX = 16;
 const MAIN_FLEX = 4.2;
 const SIDE_FLEX = 1;
+const MOBILE_MAX_WIDTH_PX = 640;
+const MOBILE_SLIDE_RATIO = 0.86;
 const SLIDE_EASING = "cubic-bezier(0.32, 0.72, 0, 1)";
 const SLIDE_TRANSITION = `transform ${SLIDE_MS}ms ${SLIDE_EASING}`;
 
@@ -52,6 +54,12 @@ function getVisibleSpaces(activeIndex: number) {
 }
 
 function measureWidths(containerWidth: number) {
+  // On phones, show one large photo with a peek of the next instead of thin strips.
+  if (containerWidth < MOBILE_MAX_WIDTH_PX) {
+    const slide = containerWidth * MOBILE_SLIDE_RATIO;
+    return { main: slide, side: slide };
+  }
+
   const gaps = GAP_PX * 3;
   const available = containerWidth - gaps;
   const unit = available / (MAIN_FLEX + SIDE_FLEX * 3);
@@ -196,15 +204,15 @@ export function ExploreSpaceCarousel() {
   }
 
   return (
-    <section aria-label="Explore our space" className="bg-white py-16 lg:py-20">
+    <section aria-label="Explore our space" className="bg-white py-10 lg:py-20">
       <div className={siteContainerClass}>
-        <ScrollReveal className="mb-10 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
+        <ScrollReveal className="mb-6 flex flex-col gap-3 lg:mb-10 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
           <h2 className="text-3xl font-bold tracking-tight text-neutral-950 lg:text-[2.5rem] lg:leading-tight">
             Explore Our Space
           </h2>
           <p className="max-w-md text-[15px] leading-snug text-neutral-600 lg:max-w-[34rem] lg:text-right">
-            From the heart of the city to calmer corners, our coworking spaces
-            <br />
+            From the heart of the city to calmer corners, our coworking spaces{" "}
+            <br className="hidden lg:block" />
             are designed to keep you productive, connected, and inspired.
           </p>
         </ScrollReveal>
@@ -248,8 +256,8 @@ export function ExploreSpaceCarousel() {
                       className="object-cover object-center"
                       sizes={
                         isMain || isExitingMain
-                          ? "(max-width: 768px) 85vw, 58vw"
-                          : "(max-width: 768px) 20vw, 14vw"
+                          ? "(max-width: 640px) 86vw, 58vw"
+                          : "(max-width: 640px) 86vw, 14vw"
                       }
                     />
 

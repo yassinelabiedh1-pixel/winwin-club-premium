@@ -17,37 +17,38 @@ const faqs = [
     id: "visit",
     question: "Can I visit before signing up?",
     answer:
-      "Absolutely. Book a free tour anytime — we'll show you around, answer your questions, and let you feel the vibe before you commit.",
+      "Yes. Come by the club and we'll show you around and answer your questions.",
   },
   {
-    id: "faq-1",
+    id: "hours",
     question: "What are your opening hours?",
-    answer:
-      "We're open Monday through Friday, 9am to 6pm. Members with 24/7 access can come and go outside those hours too.",
+    answer: "We're open 24/7.",
   },
   {
-    id: "faq-2",
-    question: "What's the difference between a hot desk and a dedicated desk?",
-    answer:
-      "A hot desk is a flexible spot you can use any day. A dedicated desk is yours every day — same seat, same setup, your own storage.",
+    id: "included",
+    question: "What's included with a pass?",
+    answer: "Every pass includes Wi-Fi and coffee.",
   },
   {
-    id: "faq-3",
+    id: "wifi",
+    question: "What's the Wi-Fi like?",
+    answer: "We run on fiber with a backup line.",
+  },
+  {
+    id: "pets",
     question: "Are pets allowed?",
-    answer:
-      "Well-behaved pets are welcome on select days. Check with our team for the current pet-friendly schedule.",
+    answer: "No, pets aren't allowed.",
   },
   {
-    id: "faq-4",
-    question: "Is the Wi-Fi really that fast?",
-    answer:
-      "Yes — we run enterprise-grade fiber with a backup line. Most members say it's the fastest connection they've ever had at work.",
+    id: "pause",
+    question: "Can I pause my plan?",
+    answer: "Yes, you can pause your plan for up to 7 days.",
   },
   {
-    id: "faq-5",
-    question: "Can I switch plans later on?",
+    id: "age",
+    question: "Is there a minimum age?",
     answer:
-      "Of course. Upgrade, downgrade, or pause your plan with 30 days' notice. We keep it flexible because your needs change.",
+      "Yes, members must be 18 or older. Applications from anyone under 18 are reviewed case by case.",
   },
 ];
 

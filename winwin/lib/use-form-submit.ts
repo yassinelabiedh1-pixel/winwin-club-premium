@@ -2,10 +2,9 @@
 
 import { useState, type FormEvent } from "react";
 
-type FormType = "contact" | "booking";
 type FormStatus = "idle" | "sending" | "success" | "error";
 
-export function useFormSubmit(type: FormType) {
+export function useFormSubmit() {
   const [status, setStatus] = useState<FormStatus>("idle");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -19,7 +18,7 @@ export function useFormSubmit(type: FormType) {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...fields, type }),
+        body: JSON.stringify(fields),
       });
       setStatus(response.ok ? "success" : "error");
     } catch {

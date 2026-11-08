@@ -8,7 +8,7 @@ import { Navbar } from "@/components/navbar";
 export const metadata: Metadata = {
   title: "Contact | Winwin CLUB",
   description:
-    "Get in touch with Winwin CLUB — book a tour, ask a question, or just say hi.",
+    "Get in touch with Winwin CLUB to plan a visit, ask a question, or just say hi.",
 };
 
 export default function ContactPage() {
