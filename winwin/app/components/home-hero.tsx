@@ -1,9 +1,9 @@
 "use client";
 
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { TestimonialCarousel } from "@/app/components/testimonial-carousel";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { siteContainerClass } from "@/lib/layout";
 import { cn } from "@/lib/utils";
@@ -14,7 +14,7 @@ export function HomeHero() {
       <div
         className={cn(
           siteContainerClass,
-          "grid w-full grid-cols-1 gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-16"
+          "grid w-full grid-cols-1 gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-8 xl:gap-16"
         )}
       >
         <div className="flex flex-col justify-start space-y-8 lg:col-span-5 lg:min-h-[472px] lg:justify-center">
@@ -34,32 +34,14 @@ export function HomeHero() {
           </ScrollReveal>
 
           <ScrollReveal delay={0.1}>
-            <div className="-mx-6 overflow-hidden sm:-mx-10 lg:-mx-0">
-              <TestimonialCarousel />
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.18}>
             <div>
               <Link
-                href="/spaces"
+                href="/pricing"
                 className="inline-flex items-center gap-3 rounded-full bg-[#121829] px-6 py-3 font-semibold text-white shadow-md transition hover:opacity-90"
               >
-                <span>Find Your Desk</span>
+                <span>Check Pricing</span>
                 <div className="border-l border-neutral-600 pl-2">
-                  <svg
-                    className="h-4 w-4 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
-                    />
-                  </svg>
+                  <ArrowRight aria-hidden className="h-4 w-4 text-white" />
                 </div>
               </Link>
             </div>
@@ -102,20 +84,14 @@ export function HomeHero() {
                   />
                 </svg>
               </div>
-              <div className="absolute right-4 bottom-4 left-4 flex items-center justify-between rounded-2xl bg-black/40 p-4 text-white backdrop-blur-md">
-                <div>
-                  <h3 className="text-sm font-bold">Forfait baccalauréat</h3>
-                  <p className="text-[0.7rem] text-neutral-300">
-                    Flexibilité, confort et productivité.
-                  </p>
-                </div>
-                <span className="rounded-xl bg-white px-3 py-1.5 text-xs font-bold text-neutral-900">
-                  15 DT{" "}
-                  <span className="text-[0.65rem] font-normal text-neutral-500">
-                    /day
-                  </span>
+              {/* Pricing hidden for now.
+              <span className="rounded-xl bg-white px-3 py-1.5 text-xs font-bold text-neutral-900">
+                15 DT{" "}
+                <span className="text-[0.65rem] font-normal text-neutral-500">
+                  /day
                 </span>
-              </div>
+              </span>
+              */}
             </div>
 
             <div className="col-span-4 flex h-full flex-col gap-4">
@@ -127,14 +103,11 @@ export function HomeHero() {
                   className="object-cover"
                   sizes="(max-width: 1024px) 50vw, 33vw"
                 />
-                <div className="absolute right-3 bottom-3 left-3 flex items-center justify-between rounded-xl bg-black/50 p-2 text-white backdrop-blur-sm">
-                  <span className="truncate pr-1 text-[0.65rem] font-bold">
-                    Forfait baccalauréat
-                  </span>
-                  <span className="shrink-0 rounded-lg bg-white px-2 py-0.5 text-[0.65rem] font-bold text-black">
-                    150 DT
-                  </span>
-                </div>
+                {/* Pricing hidden for now.
+                <span className="shrink-0 rounded-lg bg-white px-2 py-0.5 text-[0.65rem] font-bold text-black">
+                  150 DT
+                </span>
+                */}
               </div>
 
               <div className="relative flex-1 overflow-hidden rounded-3xl bg-neutral-100 shadow-sm">
@@ -145,14 +118,11 @@ export function HomeHero() {
                   className="object-cover"
                   sizes="(max-width: 1024px) 50vw, 33vw"
                 />
-                <div className="absolute right-3 bottom-3 left-3 flex items-center justify-between rounded-xl bg-black/50 p-2 text-white backdrop-blur-sm">
-                  <span className="truncate pr-1 text-[0.65rem] font-bold">
-                    Forfait baccalauréat
-                  </span>
-                  <span className="shrink-0 rounded-lg bg-white px-2 py-0.5 text-[0.65rem] font-bold text-black">
-                    150 DT
-                  </span>
-                </div>
+                {/* Pricing hidden for now.
+                <span className="shrink-0 rounded-lg bg-white px-2 py-0.5 text-[0.65rem] font-bold text-black">
+                  150 DT
+                </span>
+                */}
               </div>
             </div>
           </div>

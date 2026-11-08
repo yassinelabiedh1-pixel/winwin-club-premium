@@ -1,5 +1,6 @@
 "use client";
 
+import { FormHoneypot } from "@/components/form-honeypot";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,13 +12,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { CLUB_MAPS_URL } from "@/lib/site";
+import { useFormSubmit } from "@/lib/use-form-submit";
 
 const helpTopics = [
-  { value: "tour", label: "Book a tour" },
-  { value: "membership", label: "Membership & pricing" },
-  { value: "events", label: "Events & community" },
-  { value: "partnership", label: "Partnership inquiry" },
-  { value: "other", label: "Something else" },
+  { value: "Book a tour", label: "Book a tour" },
+  { value: "Membership & pricing", label: "Membership & pricing" },
+  { value: "Events & community", label: "Events & community" },
+  { value: "Partnership inquiry", label: "Partnership inquiry" },
+  { value: "Something else", label: "Something else" },
 ];
 
 const fieldClassName =
@@ -30,8 +33,34 @@ const selectItemClassName =
   "min-h-10 rounded-lg px-3 py-2.5 text-[15px] text-white/75 transition-colors outline-none data-highlighted:bg-white/10 data-highlighted:text-white focus:bg-white/10 focus:text-white data-selected:bg-white/[0.07] data-selected:text-white [&_svg]:text-white";
 
 export function ContactForm() {
+  const { status, handleSubmit, reset } = useFormSubmit("contact");
+
+  if (status === "success") {
+    return (
+      <div
+        role="status"
+        className="flex w-full flex-1 flex-col items-start justify-center rounded-lg border border-white/[0.08] bg-[#1A1F45] p-8"
+      >
+        <h2 className="text-2xl font-semibold tracking-tight">Message sent</h2>
+        <p className="mt-2 text-[15px] text-white/60">
+          Thanks for reaching out. We&apos;ll get back to you soon.
+        </p>
+        <button
+          type="button"
+          onClick={reset}
+          className="mt-6 text-sm font-semibold text-white underline underline-offset-4 hover:text-white/80"
+        >
+          Send another message
+        </button>
+      </div>
+    );
+  }
+
+  const isSending = status === "sending";
+
   return (
-    <form className="w-full" onSubmit={(event) => event.preventDefault()}>
+    <form className="relative w-full" onSubmit={handleSubmit}>
+      <FormHoneypot />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="name" className="text-[13px] font-normal text-white/50">
@@ -40,7 +69,10 @@ export function ContactForm() {
           <Input
             id="name"
             name="name"
-            placeholder="Jane Smith"
+            required
+            maxLength={120}
+            autoComplete="name"
+            placeholder="Your name"
             className={fieldClassName}
           />
         </div>
@@ -52,7 +84,10 @@ export function ContactForm() {
             id="email"
             name="email"
             type="email"
-            placeholder="jane@framer.com"
+            required
+            maxLength={200}
+            autoComplete="email"
+            placeholder="you@example.com"
             className={fieldClassName}
           />
         </div>
@@ -62,7 +97,7 @@ export function ContactForm() {
         <Label htmlFor="topic" className="text-[13px] font-normal text-white/50">
           What can we help you with?
         </Label>
-        <Select>
+        <Select name="topic">
           <SelectTrigger
             id="topic"
             className={`w-full ${fieldClassName} !h-12 min-h-12 py-0 data-[size=default]:!h-12 [&_svg]:text-white/45`}
@@ -96,6 +131,8 @@ export function ContactForm() {
         <Textarea
           id="message"
           name="message"
+          required
+          maxLength={5000}
           placeholder="Your message..."
           rows={5}
           className="min-h-[132px] resize-none rounded-lg border-white/[0.08] bg-[#1A1F45] px-4 py-3 text-[15px] text-white placeholder:text-white/30 focus-visible:border-white/20 focus-visible:ring-white/10"
@@ -104,14 +141,26 @@ export function ContactForm() {
 
       <Button
         type="submit"
+        disabled={isSending}
         className="mt-6 h-[52px] w-full rounded-full bg-white text-[15px] font-medium text-[#0A0E27] hover:bg-white/90"
       >
-        Send your message
+        {isSending ? "Sending..." : "Send your message"}
       </Button>
 
-      <p className="mt-5 text-center text-[12px] leading-relaxed text-white/35">
-        We usually reply within a few hours. No bots — just real humans.
-      </p>
+      {status === "error" && (
+        <p role="alert" className="mt-4 text-center text-sm text-white/80">
+          We couldn&apos;t send your message. Please try again, or{" "}
+          <a
+            href={CLUB_MAPS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold underline underline-offset-4"
+          >
+            visit us at the club
+          </a>
+          .
+        </p>
+      )}
     </form>
   );
 }

@@ -4,14 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { NavLoginButton } from "@/components/nav-login-button";
 import { WinwinLogo } from "@/components/winwin-logo";
 import { siteContainerClass } from "@/lib/layout";
 import { cn } from "@/lib/utils";
 const navLinks = [
   { href: "/", label: "Overview" },
-  { href: "/#features", label: "Features" },
   { href: "/contact", label: "Contact" },
+  { href: "/pricing", label: "Pricing" },
 ] as const;
 
 type NavbarProps = {
@@ -36,33 +35,25 @@ export function Navbar({ variant }: NavbarProps) {
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 z-50 w-full">
-      <div
-        aria-hidden
-        className={cn(
-          "pointer-events-none absolute inset-x-0 top-0 h-[72px] transition-opacity duration-300",
-          isScrolled ? "opacity-100" : "opacity-0",
-          isDark
-            ? "bg-[linear-gradient(to_bottom,rgba(3,5,16,0.92)_0%,rgba(5,7,22,0.55)_62%,rgba(10,14,39,0.18)_84%,transparent_100%)]"
-            : "bg-[linear-gradient(to_bottom,rgba(197,58,70,0.38)_0%,rgba(197,58,70,0.18)_62%,rgba(197,58,70,0.06)_84%,transparent_100%)]"
-        )}
-      />
+    <header className="pointer-events-none fixed top-0 left-0 z-50 w-full">
       <div
         className={cn(
-          "relative z-10 flex h-[72px] items-center justify-between",
-          siteContainerClass
+          "pointer-events-auto relative z-10 flex items-center justify-between border transition-all duration-300",
+          isScrolled
+            ? cn(
+                "mx-auto mt-3 h-16 w-[calc(100%-2rem)] max-w-[1168px] rounded-full px-6 shadow-lg backdrop-blur-xl",
+                isDark
+                  ? "border-white/10 bg-[#0A0E27]/90 shadow-black/20"
+                  : "border-neutral-200/70 bg-white/80 shadow-neutral-900/5"
+              )
+            : cn("h-[72px] rounded-none border-transparent", siteContainerClass)
         )}
       >
         <WinwinLogo variant={resolvedVariant} />
 
-        <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 md:flex lg:gap-10">
+        <nav className="hidden items-center gap-8 md:flex lg:gap-10">
           {navLinks.map((link) => {
-            const isActive =
-              link.href === "/contact"
-                ? pathname === "/contact"
-                : link.href === "/"
-                  ? pathname === "/"
-                  : false;
+            const isActive = pathname === link.href;
 
             return (
               <Link
@@ -87,8 +78,6 @@ export function Navbar({ variant }: NavbarProps) {
             );
           })}
         </nav>
-
-        <NavLoginButton variant={resolvedVariant} />
       </div>
     </header>
   );

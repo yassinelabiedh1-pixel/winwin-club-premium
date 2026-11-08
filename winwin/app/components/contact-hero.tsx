@@ -1,34 +1,12 @@
 "use client";
 
-import { Clock, Mail, Phone } from "lucide-react";
+import { MapPin } from "lucide-react";
 
 import { ContactForm } from "@/components/contact-form";
-import { InstagramIcon } from "@/components/icons";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { siteContainerClass } from "@/lib/layout";
+import { CLUB_MAPS_URL } from "@/lib/site";
 import { cn } from "@/lib/utils";
-
-const contactDetails = [
-  {
-    icon: Mail,
-    label: "hello@yourcoworking.com",
-    href: "mailto:hello@yourcoworking.com",
-  },
-  {
-    icon: Phone,
-    label: "+33 6 12 34 56 78",
-    href: "tel:+33612345678",
-  },
-  {
-    icon: Clock,
-    label: "Mon–Fri: 9am to 6pm",
-  },
-  {
-    icon: InstagramIcon,
-    label: "@yourcoworking",
-    href: "https://instagram.com/yourcoworking",
-  },
-];
 
 export function ContactHero() {
   return (
@@ -47,40 +25,15 @@ export function ContactHero() {
           hear from you.
         </p>
 
-        <ul className="mt-12 space-y-5">
-          {contactDetails.map((item) => {
-            const Icon = item.icon;
-            const content = (
-              <span className="flex items-center gap-3.5 text-[15px] text-white/85">
-                <Icon className="size-[18px] shrink-0 text-white/55" />
-                {item.label}
-              </span>
-            );
-
-            return (
-              <li key={item.label}>
-                {item.href ? (
-                  <a
-                    href={item.href}
-                    className="transition-colors hover:text-white"
-                    target={
-                      item.href.startsWith("http") ? "_blank" : undefined
-                    }
-                    rel={
-                      item.href.startsWith("http")
-                        ? "noopener noreferrer"
-                        : undefined
-                    }
-                  >
-                    {content}
-                  </a>
-                ) : (
-                  content
-                )}
-              </li>
-            );
-          })}
-        </ul>
+        <a
+          href={CLUB_MAPS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-12 flex items-center gap-3.5 text-[15px] text-white/85 transition-colors hover:text-white"
+        >
+          <MapPin aria-hidden className="size-[18px] shrink-0 text-white/55" />
+          Find us on Google Maps
+        </a>
       </ScrollReveal>
 
       <ScrollReveal

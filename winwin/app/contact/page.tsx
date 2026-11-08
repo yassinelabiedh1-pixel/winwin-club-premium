@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 
 import { ContactHero } from "@/app/components/contact-hero";
 import { ContactFaq } from "@/components/contact-faq";
-import { ContactTestimonials } from "@/components/contact-testimonials";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 
@@ -21,7 +20,6 @@ export default function ContactPage() {
       </section>
 
       <ContactFaq />
-      <ContactTestimonials />
       <Footer />
     </>
   );

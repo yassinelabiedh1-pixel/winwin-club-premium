@@ -11,7 +11,6 @@ import {
 import { flushSync } from "react-dom";
 
 import { siteContainerClass } from "@/lib/layout";
-import { cn } from "@/lib/utils";
 import { ScrollReveal } from "@/components/scroll-reveal";
 
 const AUTOPLAY_MS = 4000;
@@ -23,14 +22,26 @@ const SLIDE_EASING = "cubic-bezier(0.32, 0.72, 0, 1)";
 const SLIDE_TRANSITION = `transform ${SLIDE_MS}ms ${SLIDE_EASING}`;
 
 const spaces = [
-  { id: "open-office", title: "Open office", image: "/img1.webp" },
-  { id: "virtual-office", title: "Virtual Office", image: "/img2.webp" },
   {
-    id: "flexible-membership",
-    title: "Flexible Membership",
+    id: "open-area",
+    alt: "Open coworking area with desks and a long counter",
+    image: "/img1.webp",
+  },
+  {
+    id: "shared-table",
+    alt: "Members working together at a shared table",
+    image: "/img2.webp",
+  },
+  {
+    id: "window-desks",
+    alt: "Members working at desks by a large window",
     image: "/img3.webp",
   },
-  { id: "hot-desk", title: "Hot Desk", image: "/img2.webp" },
+  {
+    id: "shared-table-repeat",
+    alt: "Members working together at a shared table",
+    image: "/img2.webp",
+  },
 ] as const;
 
 function getVisibleSpaces(activeIndex: number) {
@@ -186,7 +197,7 @@ export function ExploreSpaceCarousel() {
 
   return (
     <section aria-label="Explore our space" className="bg-white py-16 lg:py-20">
-      <div className={cn(siteContainerClass, "px-6 lg:px-0")}>
+      <div className={siteContainerClass}>
         <ScrollReveal className="mb-10 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
           <h2 className="text-3xl font-bold tracking-tight text-neutral-950 lg:text-[2.5rem] lg:leading-tight">
             Explore Our Space
@@ -232,7 +243,7 @@ export function ExploreSpaceCarousel() {
                   <div className="relative h-[340px] w-full overflow-hidden bg-neutral-100 sm:h-[400px] lg:h-[480px]">
                     <Image
                       src={space.image}
-                      alt={space.title}
+                      alt={space.alt}
                       fill
                       className="object-cover object-center"
                       sizes={
@@ -258,17 +269,6 @@ export function ExploreSpaceCarousel() {
                       </div>
                     )}
                   </div>
-
-                  <p
-                    className={cn(
-                      "mt-3 text-sm text-neutral-950",
-                      isMain
-                        ? "font-semibold"
-                        : "font-medium text-neutral-600"
-                    )}
-                  >
-                    {space.title}
-                  </p>
                 </div>
               );
             })}

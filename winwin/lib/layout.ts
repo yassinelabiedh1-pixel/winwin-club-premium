@@ -1,2 +1,2 @@
 export const siteContainerClass =
-  "mx-auto w-full max-w-[1120px] px-6 lg:px-0";
+  "mx-auto w-full max-w-[1168px] px-6";
