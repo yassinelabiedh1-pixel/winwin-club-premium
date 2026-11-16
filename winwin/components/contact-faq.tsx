@@ -9,6 +9,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { siteContainerClass } from "@/lib/layout";
+import { CLUB_HOURS, CLUB_SEASON_DATES, CLUB_SEASON_NAME } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { ScrollReveal } from "@/components/scroll-reveal";
 
@@ -22,7 +23,7 @@ const faqs = [
   {
     id: "hours",
     question: "What are your opening hours?",
-    answer: "We're open 24/7.",
+    answer: `We're open every day from ${CLUB_HOURS}. During ${CLUB_SEASON_NAME}, from ${CLUB_SEASON_DATES}, we stay open 24/7 so you can study and work around the clock.`,
   },
   {
     id: "included",

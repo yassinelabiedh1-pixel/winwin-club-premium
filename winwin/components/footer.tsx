@@ -12,6 +12,9 @@ import {
   CLUB_MAPS_URL,
   CLUB_PHONE_DISPLAY,
   CLUB_PHONE_URL,
+  CLUB_HOURS,
+  CLUB_SEASON_DATES,
+  CLUB_SEASON_NAME,
 } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -71,6 +74,10 @@ export function Footer() {
                   >
                     {CLUB_ADDRESS}
                   </a>
+                </li>
+                <li className="max-w-[240px] text-sm text-slate-400">
+                  Open {CLUB_HOURS}, every day. 24/7 during {CLUB_SEASON_NAME},{" "}
+                  {CLUB_SEASON_DATES}.
                 </li>
               </ul>
               <div className="mt-5 flex items-center gap-4">

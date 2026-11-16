@@ -1,6 +1,7 @@
 "use client";
 
 import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import type { ComponentType } from "react";
 
 import { ContactForm } from "@/components/contact-form";
 import { FacebookIcon, InstagramIcon } from "@/components/icons";
@@ -14,16 +15,30 @@ import {
   CLUB_MAPS_URL,
   CLUB_PHONE_DISPLAY,
   CLUB_PHONE_URL,
+  CLUB_HOURS,
+  CLUB_SEASON_DATES,
+  CLUB_SEASON_NAME,
   CLUB_WHATSAPP_URL,
 } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-const contactDetails = [
+type ContactDetail = {
+  icon: ComponentType<{ className?: string }>;
+  label: string;
+  href?: string;
+  note?: string;
+};
+
+const contactDetails: ContactDetail[] = [
   { icon: Mail, label: CLUB_EMAIL, href: `mailto:${CLUB_EMAIL}` },
   { icon: Phone, label: CLUB_PHONE_DISPLAY, href: CLUB_PHONE_URL },
   { icon: MessageCircle, label: "Message us on WhatsApp", href: CLUB_WHATSAPP_URL },
   { icon: MapPin, label: CLUB_ADDRESS, href: CLUB_MAPS_URL },
-  { icon: Clock, label: "Open 24/7" },
+  {
+    icon: Clock,
+    label: `Open ${CLUB_HOURS}, every day`,
+    note: `24/7 during ${CLUB_SEASON_NAME}, ${CLUB_SEASON_DATES}`,
+  },
   { icon: InstagramIcon, label: "Instagram", href: CLUB_INSTAGRAM_URL },
   { icon: FacebookIcon, label: "Facebook", href: CLUB_FACEBOOK_URL },
 ];
@@ -49,9 +64,16 @@ export function ContactHero() {
           {contactDetails.map((item) => {
             const Icon = item.icon;
             const content = (
-              <span className="flex items-center gap-3.5 text-[15px] text-white/85">
-                <Icon className="size-[18px] shrink-0 text-white/55" />
-                {item.label}
+              <span className="flex items-start gap-3.5 text-[15px] text-white/85">
+                <Icon className="mt-[3px] size-[18px] shrink-0 text-white/55" />
+                <span>
+                  {item.label}
+                  {item.note ? (
+                    <span className="mt-1 block text-[13px] text-white/50">
+                      {item.note}
+                    </span>
+                  ) : null}
+                </span>
               </span>
             );
 

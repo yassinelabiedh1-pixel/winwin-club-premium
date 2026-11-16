@@ -10,3 +10,10 @@ export const CLUB_INSTAGRAM_URL = "https://www.instagram.com/the.winwin.club";
 export const CLUB_FACEBOOK_URL =
   "https://www.facebook.com/profile.php?id=61585336599833";
 export const CLUB_LEGAL_NAME = "HORRIGOS";
+
+/** Regular opening hours, every day of the year outside Full Focus Season. */
+export const CLUB_HOURS = "8am to 2am";
+/** Exam season: the club stays open around the clock. */
+export const CLUB_SEASON_NAME = "Full Focus Season";
+export const CLUB_SEASON_DATES = "15 March to 15 June";
+export const CLUB_SEASON_DATES_SHORT = "15 Mar – 15 Jun";

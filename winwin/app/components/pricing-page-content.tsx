@@ -22,7 +22,12 @@ import {
   type HourlyRate,
   type Tier,
 } from "@/lib/pricing";
-import { CLUB_MAPS_URL } from "@/lib/site";
+import {
+  CLUB_HOURS,
+  CLUB_MAPS_URL,
+  CLUB_SEASON_DATES,
+  CLUB_SEASON_NAME,
+} from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 const allHourlyRates = [...firstVisitRates, ...regularRates];
@@ -533,6 +538,8 @@ function HourlySection({ tier }: { tier: Tier }) {
 }
 
 const goodToKnow = [
+  { label: "Opening hours", value: `${CLUB_HOURS}, every day` },
+  { label: CLUB_SEASON_NAME, value: `Open 24/7, ${CLUB_SEASON_DATES}` },
   { label: "Included with every pass", value: "Wi-Fi and coffee" },
   { label: "Pausing your plan", value: "Up to 7 days" },
   { label: "Minimum age", value: "18, or case by case on application" },

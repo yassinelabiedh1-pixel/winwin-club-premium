@@ -1,11 +1,17 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Zap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { siteContainerClass } from "@/lib/layout";
+import {
+  CLUB_HOURS,
+  CLUB_SEASON_DATES,
+  CLUB_SEASON_DATES_SHORT,
+  CLUB_SEASON_NAME,
+} from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export function HomeHero() {
@@ -20,15 +26,37 @@ export function HomeHero() {
         <div className="flex flex-col justify-start space-y-6 lg:col-span-5 lg:min-h-[472px] lg:justify-center lg:space-y-8">
           <ScrollReveal>
             <div>
-              <h1 className="mb-4 text-[2rem] font-bold leading-[1.1] tracking-tight text-neutral-950 sm:text-[2.4rem] lg:mb-6 lg:text-[2.8rem]">
-                A <span className="text-[#7C2314]">24/7</span> Open Space <br />
-                For <span className="text-[#7C2314]">Professional</span>
+              <h1 className="text-[2rem] font-bold leading-[1.1] tracking-tight text-neutral-950 sm:text-[2.4rem] lg:text-[2.8rem]">
+                An Open Space, <br />
+                Open <span className="text-[#7C2314]">18 Hours</span> <br />
+                Every Day
               </h1>
+              <p className="mt-2 text-[15px] font-semibold text-neutral-500 lg:mt-3">
+                From {CLUB_HOURS}
+              </p>
+              <p className="relative mt-5 mb-5 flex w-full max-w-[520px] flex-col items-start gap-1 overflow-hidden rounded-2xl bg-gradient-to-r from-[#7C2314] via-[#B23A1F] to-[#E0612F] px-5 py-3 text-white shadow-[0_10px_30px_-10px_rgba(178,58,31,0.8)] sm:flex-row sm:items-center sm:justify-between sm:gap-3 sm:rounded-full sm:py-2.5 lg:mt-6 lg:px-4 xl:px-5">
+                <span
+                  aria-hidden
+                  className="animate-badge-shine pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                />
+                <span className="relative inline-flex shrink-0 items-center gap-2 text-[12px] font-bold uppercase tracking-[0.1em] text-white/90 lg:text-[11px] lg:tracking-[0.08em]">
+                  <Zap aria-hidden className="size-3.5 fill-white" />
+                  {CLUB_SEASON_NAME}
+                </span>
+                <span className="relative whitespace-nowrap">
+                  <span className="text-[18px] font-extrabold tracking-tight lg:text-[17px]">
+                    Open 24/7,
+                  </span>{" "}
+                  <span className="text-[15px] font-semibold lg:text-[14px]">
+                    <span className="lg:hidden">{CLUB_SEASON_DATES}</span>
+                    <span className="hidden lg:inline">{CLUB_SEASON_DATES_SHORT}</span>
+                  </span>
+                </span>
+              </p>
               <p className="max-w-[520px] text-[15px] font-medium leading-relaxed text-neutral-600">
-                Discover WinWin Club a{" "}
-                <span className="font-bold text-[#7C2314]">24/7 coworking space</span>{" "}
-                where productivity meets opportunity. Work, connect, and grow in a
-                modern and inspiring environment.
+                Discover WinWin Club, a coworking space where productivity meets
+                opportunity. Work, connect, and grow in a modern and inspiring
+                environment.
               </p>
             </div>
           </ScrollReveal>

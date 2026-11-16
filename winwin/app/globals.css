@@ -134,3 +134,24 @@
     @apply font-sans;
   }
 }
+/* Light streak that sweeps across the Full Focus Season badge. */
+@keyframes badge-shine {
+  0% {
+    left: -33%;
+  }
+  60%,
+  100% {
+    left: 110%;
+  }
+}
+
+.animate-badge-shine {
+  animation: badge-shine 2.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-badge-shine {
+    animation: none;
+    display: none;
+  }
+}

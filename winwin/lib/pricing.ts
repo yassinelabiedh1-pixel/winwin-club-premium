@@ -25,8 +25,9 @@ export type HourlyRate = {
   prices: Prices;
 };
 
-const AFTERNOON_START = 36;
-const EVENING_START = 64;
+// The timeline runs from 8am to closing at 2am, 18 hours.
+const AFTERNOON_START = 28; // 1pm
+const EVENING_START = 50; // 5pm
 
 /** Labels for the day timeline. The closing time is deliberately not a number. */
 export const dayTicks = [
