@@ -21,7 +21,7 @@ const schema = {
   description: SITE_DESCRIPTION,
   url: SITE_URL,
   logo: `${SITE_URL}/icon.png`,
-  image: `${SITE_URL}/opengraph-image`,
+  image: `${SITE_URL}/img1.webp`,
   telephone: CLUB_PHONE_URL.replace("tel:", ""),
   email: CLUB_EMAIL,
   address: {
