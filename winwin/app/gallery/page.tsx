@@ -8,7 +8,8 @@ import { galleryPhotos } from "@/lib/photos";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Gallery | Winwin CLUB",
+  title: "Gallery",
+  alternates: { canonical: "/gallery" },
   description:
     "Photos of Winwin Club: the space, our members, talks, workshops and study sessions.",
 };

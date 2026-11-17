@@ -7,7 +7,8 @@ import { siteContainerClass } from "@/lib/layout";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Winwin CLUB",
+  title: "Privacy Policy",
+  alternates: { canonical: "/privacy" },
   description: "How Winwin Club collects and uses personal information.",
 };
 

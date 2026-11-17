@@ -6,7 +6,8 @@ import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 
 export const metadata: Metadata = {
-  title: "Contact | Winwin CLUB",
+  title: "Contact",
+  alternates: { canonical: "/contact" },
   description:
     "Get in touch with Winwin CLUB to plan a visit, ask a question, or just say hi.",
 };

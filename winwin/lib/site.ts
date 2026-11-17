@@ -1,3 +1,8 @@
+/** The live address of the site, used for links in previews, the sitemap and Google. */
+export const SITE_URL = "https://www.winwinclub.tn";
+export const SITE_DESCRIPTION =
+  "Coworking space in Menzah 7, Ariana, open every day from 8am to 2am. Monthly, day pack and hourly passes for students and professionals, with Wi-Fi and coffee included.";
+
 export const CLUB_MAPS_URL =
   "https://www.google.com/maps/place/Winwin+Club/data=!4m2!3m1!1s0x0:0x40dbf5ce8545bfb?sa=X&ved=1t:2428&ictx=111";
 
