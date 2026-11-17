@@ -10,6 +10,7 @@ export const CLUB_INSTAGRAM_URL = "https://www.instagram.com/the.winwin.club";
 export const CLUB_FACEBOOK_URL =
   "https://www.facebook.com/profile.php?id=61585336599833";
 export const CLUB_LEGAL_NAME = "HORRIGOS";
+export const CLUB_BOOKING_URL = "https://www.booklyne.com/book/winwin-club-2";
 
 /** Regular opening hours, every day of the year outside Full Focus Season. */
 export const CLUB_HOURS = "8am to 2am";

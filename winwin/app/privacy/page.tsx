@@ -35,6 +35,7 @@ const sections = [
     title: "Who we share it with",
     paragraphs: [
       "We share information only with service providers that help us run the website and handle messages, including our website host and email provider, and when the law requires it.",
+      "When you book a spot through our booking page, your booking is handled by Booklyne, which has its own privacy policy.",
       "Links to Google Maps, WhatsApp, Instagram and Facebook take you to services that have their own privacy policies.",
     ],
   },

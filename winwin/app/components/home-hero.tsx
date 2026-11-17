@@ -2,11 +2,11 @@
 
 import { ArrowRight, Zap } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { siteContainerClass } from "@/lib/layout";
 import {
+  CLUB_BOOKING_URL,
   CLUB_HOURS,
   CLUB_SEASON_DATES,
   CLUB_SEASON_DATES_SHORT,
@@ -63,15 +63,17 @@ export function HomeHero() {
 
           <ScrollReveal delay={0.1}>
             <div>
-              <Link
-                href="/pricing"
+              <a
+                href={CLUB_BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 rounded-full bg-[#121829] px-6 py-3 font-semibold text-white shadow-md transition hover:opacity-90"
               >
-                <span>Check Pricing</span>
+                <span>Book Now</span>
                 <div className="border-l border-neutral-600 pl-2">
                   <ArrowRight aria-hidden className="h-4 w-4 text-white" />
                 </div>
-              </Link>
+              </a>
             </div>
           </ScrollReveal>
         </div>

@@ -1,14 +1,15 @@
 "use client";
 
 import { useReducedMotion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { PassTimeTrack } from "@/components/pass-time-track";
 import { PricingTierToggle } from "@/components/pricing-tier-toggle";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { siteContainerClass } from "@/lib/layout";
+import { CLUB_BOOKING_URL } from "@/lib/site";
 import {
   daysPasses,
   firstVisitRates,
@@ -45,8 +46,6 @@ type PreviewContent = {
   description: string;
   lowest: number;
   suffix?: string;
-  cta: string;
-  href: string;
   rows: PreviewRow[];
 };
 
@@ -57,8 +56,6 @@ function getPreview(variant: PlanVariant, tier: Tier): PreviewContent {
       description: "A full month, at the hours that suit you.",
       lowest: lowestPrice(monthlyPasses, tier),
       suffix: "/month",
-      cta: "See monthly passes",
-      href: "/pricing#monthly",
       rows: monthlyPasses.map((pass) => ({
         id: pass.id,
         label: pass.name,
@@ -74,8 +71,6 @@ function getPreview(variant: PlanVariant, tier: Tier): PreviewContent {
       title: "Days Pack Pass",
       description: "Buy your days, then use them when you need them.",
       lowest: lowestPrice(daysPasses, tier),
-      cta: "See days pack passes",
-      href: "/pricing#days",
       rows: daysPasses.map((pass) => ({
         id: pass.id,
         label: pass.name,
@@ -92,8 +87,6 @@ function getPreview(variant: PlanVariant, tier: Tier): PreviewContent {
     title: "Hourly Passes",
     description: "Pay only for the time you spend with us.",
     lowest: lowestPrice([...firstVisitRates, ...regularRates], tier),
-    cta: "See hourly rates",
-    href: "/pricing#hourly",
     rows: [
       ...firstVisitRates.map((rate) => ({
         id: rate.id,
@@ -270,8 +263,10 @@ function PreviewBody({
         ))}
       </ul>
 
-      <Link
-        href={preview.href}
+      <a
+        href={CLUB_BOOKING_URL}
+        target="_blank"
+        rel="noopener noreferrer"
         className={cn(
           "mt-auto block w-full rounded-md py-3 text-center text-sm font-semibold transition hover:opacity-90",
           variant === "monthly" && "bg-[#121829] text-white",
@@ -279,8 +274,8 @@ function PreviewBody({
           isDark && "bg-white text-[#121829]"
         )}
       >
-        {preview.cta}
-      </Link>
+        Book Now
+      </a>
     </div>
   );
 }
@@ -400,12 +395,17 @@ export function PricingSection() {
         </div>
 
         <ScrollReveal delay={0.1} className="mt-10 flex justify-center">
-          <Link
-            href="/pricing"
-            className="inline-flex items-center rounded-full bg-[#121829] px-6 py-3 font-semibold text-white shadow-md transition hover:opacity-90"
+          <a
+            href={CLUB_BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 rounded-full bg-[#121829] px-6 py-3 font-semibold text-white shadow-md transition hover:opacity-90"
           >
-            View all plans and conditions
-          </Link>
+            <span>Choose your seat in seconds</span>
+            <span className="border-l border-neutral-600 pl-2">
+              <ArrowRight aria-hidden className="size-4" />
+            </span>
+          </a>
         </ScrollReveal>
       </div>
     </section>

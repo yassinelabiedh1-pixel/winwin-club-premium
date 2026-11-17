@@ -1,208 +1,199 @@
 "use client";
 
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
-import { flushSync } from "react-dom";
+import Link from "next/link";
+import { useEffect, useReducer, useRef } from "react";
 
-import { siteContainerClass } from "@/lib/layout";
 import { ScrollReveal } from "@/components/scroll-reveal";
+import { siteContainerClass } from "@/lib/layout";
+import { carouselPhotos, type ClubPhoto } from "@/lib/photos";
+import { cn } from "@/lib/utils";
 
 const AUTOPLAY_MS = 4000;
-const SLIDE_MS = 950;
-const GAP_PX = 16;
-const MAIN_FLEX = 4.2;
-const SIDE_FLEX = 1;
-const MOBILE_MAX_WIDTH_PX = 640;
-const MOBILE_SLIDE_RATIO = 0.86;
-const SLIDE_EASING = "cubic-bezier(0.32, 0.72, 0, 1)";
-const SLIDE_TRANSITION = `transform ${SLIDE_MS}ms ${SLIDE_EASING}`;
+const EXPAND_MS = 950;
+const FADE_MS = 600;
+const PANEL_COUNT = 4;
+// With these sizes the expanded panel is close to the photos' own 3:4 shape.
+const MAIN_GROW = 2.3;
+const SIDE_GROW = 1;
+const EXPAND_EASING = "cubic-bezier(0.32, 0.72, 0, 1)";
 
-const spaces = [
-  {
-    id: "open-area",
-    alt: "Open coworking area with desks and a long counter",
-    image: "/img1.webp",
-  },
-  {
-    id: "shared-table",
-    alt: "Members working together at a shared table",
-    image: "/img2.webp",
-  },
-  {
-    id: "window-desks",
-    alt: "Members working at desks by a large window",
-    image: "/img3.webp",
-  },
-  {
-    id: "shared-table-repeat",
-    alt: "Members working together at a shared table",
-    image: "/img2.webp",
-  },
-] as const;
+const spaces = carouselPhotos;
 
-function getVisibleSpaces(activeIndex: number) {
-  return Array.from(
-    { length: spaces.length },
-    (_, i) => spaces[(activeIndex + i) % spaces.length]
-  );
-}
+type Space = ClubPhoto;
 
-function measureWidths(containerWidth: number) {
-  // On phones, show one large photo with a peek of the next instead of thin strips.
-  if (containerWidth < MOBILE_MAX_WIDTH_PX) {
-    const slide = containerWidth * MOBILE_SLIDE_RATIO;
-    return { main: slide, side: slide };
+type CarouselState = {
+  /** Which panel is expanded. */
+  active: number;
+  /** The photo in the first panel. The other panels show the photos after it. */
+  firstPhoto: number;
+};
+
+type CarouselAction = { type: "next" } | { type: "select"; panel: number };
+
+const initialState: CarouselState = { active: 0, firstPhoto: 0 };
+
+function carouselReducer(
+  state: CarouselState,
+  action: CarouselAction
+): CarouselState {
+  // A clicked photo expands right away, and the timer starts again from there.
+  if (action.type === "select") {
+    return action.panel === state.active
+      ? state
+      : { ...state, active: action.panel };
   }
 
-  const gaps = GAP_PX * 3;
-  const available = containerWidth - gaps;
-  const unit = available / (MAIN_FLEX + SIDE_FLEX * 3);
+  const isLastPanel = state.active === PANEL_COUNT - 1;
 
+  // After the last panel, start over on the first panel with the next set of photos.
   return {
-    main: unit * MAIN_FLEX,
-    side: unit * SIDE_FLEX,
+    active: isLastPanel ? 0 : state.active + 1,
+    firstPhoto: isLastPanel
+      ? (state.firstPhoto + PANEL_COUNT) % spaces.length
+      : state.firstPhoto,
   };
 }
 
-type TrackItem = (typeof spaces)[number] & { clone?: boolean };
+function SpacePhoto({
+  space,
+  sizes,
+  fade,
+}: {
+  space: Space;
+  sizes: string;
+  fade: boolean;
+}) {
+  return (
+    <motion.div
+      initial={fade ? { opacity: 0 } : false}
+      animate={{ opacity: 1 }}
+      exit={fade ? { opacity: 0 } : undefined}
+      transition={{ duration: FADE_MS / 1000 }}
+      className="absolute inset-0"
+    >
+      <Image
+        src={space.src}
+        alt={space.alt}
+        fill
+        sizes={sizes}
+        className="object-cover"
+        style={{ objectPosition: space.position }}
+      />
+    </motion.div>
+  );
+}
 
-export function ExploreSpaceCarousel() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [progress, setProgress] = useState(0);
-  const [isSliding, setIsSliding] = useState(false);
-  const [widths, setWidths] = useState({ main: 0, side: 0 });
-  const containerRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const reducedMotionRef = useRef(false);
-  const isSlidingRef = useRef(false);
-  const pendingSlideRef = useRef(false);
-
-  useEffect(() => {
-    reducedMotionRef.current = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-  }, []);
-
-  useLayoutEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const update = () => {
-      setWidths(measureWidths(container.offsetWidth));
-    };
-
-    update();
-    const observer = new ResizeObserver(update);
-    observer.observe(container);
-    return () => observer.disconnect();
-  }, []);
-
-  useLayoutEffect(() => {
-    if (!isSliding || !pendingSlideRef.current || !trackRef.current) return;
-
-    pendingSlideRef.current = false;
-    const track = trackRef.current;
-    const offset = -(widths.main + GAP_PX);
-
-    track.style.transition = "none";
-    track.style.transform = "translate3d(0, 0, 0)";
-    track.offsetHeight;
-    track.style.transition = SLIDE_TRANSITION;
-    track.style.transform = `translate3d(${offset}px, 0, 0)`;
-  }, [isSliding, widths.main]);
-
-  const hasWidths = widths.main > 0 && widths.side > 0;
-
-  const finishSlide = useCallback(() => {
-    if (!isSlidingRef.current || !trackRef.current) return;
-
-    isSlidingRef.current = false;
-
-    const track = trackRef.current;
-    track.style.transition = "none";
-    track.style.transform = "translate3d(0, 0, 0)";
-
-    flushSync(() => {
-      setActiveIndex((i) => (i + 1) % spaces.length);
-      setIsSliding(false);
-    });
-
-    requestAnimationFrame(() => {
-      if (trackRef.current) {
-        trackRef.current.style.transition = "";
-      }
-    });
-  }, []);
-
-  const goNext = useCallback(() => {
-    if (!hasWidths || isSlidingRef.current) return;
-
-    if (reducedMotionRef.current) {
-      setActiveIndex((i) => (i + 1) % spaces.length);
-      setProgress(0);
-      return;
-    }
-
-    isSlidingRef.current = true;
-    pendingSlideRef.current = true;
-    setIsSliding(true);
-    setProgress(0);
-  }, [hasWidths]);
+/**
+ * Desktop and tablet: the expanded photo moves one panel to the right each turn. After
+ * the last panel, all four photos fade to the next set together. Clicking a photo
+ * expands it.
+ */
+function ExpandingPanels() {
+  const [state, dispatch] = useReducer(carouselReducer, initialState);
+  const reduceMotion = useReducedMotion() ?? false;
+  const progressRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-
-    const onTransitionEnd = (event: TransitionEvent) => {
-      if (event.target !== track || event.propertyName !== "transform") return;
-      finishSlide();
-    };
-
-    track.addEventListener("transitionend", onTransitionEnd);
-    return () => track.removeEventListener("transitionend", onTransitionEnd);
-  }, [finishSlide]);
-
-  useEffect(() => {
-    if (isSliding || !hasWidths) return;
-
-    setProgress(0);
+    // Drive the progress bar straight on the DOM so the panels don't re-render each frame.
     const start = performance.now();
-    let raf = 0;
-
+    let frame = 0;
     const tick = (now: number) => {
-      const p = Math.min((now - start) / AUTOPLAY_MS, 1);
-      setProgress(p);
-      if (p >= 1) {
-        goNext();
+      const progress = Math.min((now - start) / AUTOPLAY_MS, 1);
+      if (progressRef.current) {
+        progressRef.current.style.width = `${progress * 100}%`;
+      }
+      if (progress >= 1) {
+        dispatch({ type: "next" });
         return;
       }
-      raf = requestAnimationFrame(tick);
+      frame = requestAnimationFrame(tick);
     };
+    frame = requestAnimationFrame(tick);
 
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [activeIndex, isSliding, hasWidths, goNext]);
+    return () => {
+      cancelAnimationFrame(frame);
+    };
+  }, [state.active, state.firstPhoto]);
 
-  const visibleItems = getVisibleSpaces(activeIndex);
-  const trackItems: TrackItem[] = isSliding
-    ? [...visibleItems, { ...visibleItems[0], clone: true }]
-    : visibleItems;
+  return (
+    <div className="hidden h-[420px] gap-4 sm:flex lg:h-[580px]">
+      {Array.from({ length: PANEL_COUNT }, (_, panel) => {
+        const space = spaces[(state.firstPhoto + panel) % spaces.length];
+        const isActive = panel === state.active;
 
-  function getPanelWidth(index: number): number {
-    if (!hasWidths) return 0;
-    if (!isSliding) {
-      return index === 0 ? widths.main : widths.side;
-    }
-    if (index === 0 || index === 1) return widths.main;
-    return widths.side;
-  }
+        return (
+          <button
+            key={panel}
+            type="button"
+            onClick={() => dispatch({ type: "select", panel })}
+            aria-label={isActive ? space.alt : `Show photo: ${space.alt}`}
+            aria-current={isActive ? "true" : undefined}
+            className={cn(
+              "group relative min-w-0 overflow-hidden bg-neutral-100 outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2",
+              isActive ? "cursor-default" : "cursor-pointer"
+            )}
+            style={{
+              flexGrow: isActive ? MAIN_GROW : SIDE_GROW,
+              flexBasis: 0,
+              transition: reduceMotion
+                ? undefined
+                : `flex-grow ${EXPAND_MS}ms ${EXPAND_EASING}`,
+            }}
+          >
+            <AnimatePresence initial={false}>
+              <SpacePhoto
+                key={space.id}
+                space={space}
+                sizes="(max-width: 1200px) 45vw, 480px"
+                fade={!reduceMotion}
+              />
+            </AnimatePresence>
 
+            {isActive && (
+              <div
+                aria-hidden
+                className="absolute top-4 right-4 h-1 w-24 overflow-hidden rounded-full bg-white/30 backdrop-blur-sm"
+              >
+                <div
+                  ref={progressRef}
+                  className="h-full w-0 rounded-full bg-white"
+                />
+              </div>
+            )}
+
+            {!isActive && (
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/15"
+              />
+            )}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+/** Phones: one large photo with a peek of the next, swiped by hand. */
+function SwipeRow() {
+  return (
+    <div className="-mx-6 flex snap-x snap-mandatory scroll-px-6 gap-3 overflow-x-auto px-6 [scrollbar-width:none] sm:hidden [&::-webkit-scrollbar]:hidden">
+      {spaces.map((space) => (
+        <div
+          key={space.id}
+          className="relative aspect-[3/4] w-[86%] shrink-0 snap-start overflow-hidden bg-neutral-100"
+        >
+          <SpacePhoto space={space} sizes="86vw" fade={false} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function ExploreSpaceCarousel() {
   return (
     <section aria-label="Explore our space" className="bg-white py-10 lg:py-20">
       <div className={siteContainerClass}>
@@ -218,71 +209,19 @@ export function ExploreSpaceCarousel() {
         </ScrollReveal>
 
         <ScrollReveal delay={0.1}>
-          <div ref={containerRef} className="overflow-hidden">
-          <div
-            ref={trackRef}
-            className="flex w-full"
-            style={{
-              gap: GAP_PX,
-              willChange: isSliding ? "transform" : "auto",
-              transform: "translate3d(0, 0, 0)",
-            }}
-          >
-            {trackItems.map((space, index) => {
-              const isMain = !isSliding ? index === 0 : index === 1;
-              const isExitingMain = isSliding && index === 0;
-              const panelWidth = getPanelWidth(index);
-              const itemKey = space.clone ? `${space.id}-clone` : space.id;
-
-              return (
-                <div
-                  key={itemKey}
-                  className="flex shrink-0 flex-col"
-                  style={
-                    hasWidths
-                      ? { width: panelWidth }
-                      : {
-                          flexGrow: isMain ? MAIN_FLEX : SIDE_FLEX,
-                          flexShrink: 0,
-                          flexBasis: 0,
-                        }
-                  }
-                >
-                  <div className="relative h-[340px] w-full overflow-hidden bg-neutral-100 sm:h-[400px] lg:h-[480px]">
-                    <Image
-                      src={space.image}
-                      alt={space.alt}
-                      fill
-                      className="object-cover object-center"
-                      sizes={
-                        isMain || isExitingMain
-                          ? "(max-width: 640px) 86vw, 58vw"
-                          : "(max-width: 640px) 86vw, 14vw"
-                      }
-                    />
-
-                    {isMain && !isSliding && (
-                      <div
-                        className="absolute top-4 right-4 h-1 w-24 overflow-hidden rounded-full bg-white/30 backdrop-blur-sm"
-                        role="progressbar"
-                        aria-valuenow={Math.round(progress * 100)}
-                        aria-valuemin={0}
-                        aria-valuemax={100}
-                        aria-label={`Next slide in ${Math.ceil((1 - progress) * (AUTOPLAY_MS / 1000))} seconds`}
-                      >
-                        <div
-                          className="h-full rounded-full bg-white transition-[width] duration-75 ease-linear"
-                          style={{ width: `${progress * 100}%` }}
-                        />
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          </div>
+          <ExpandingPanels />
+          <SwipeRow />
         </ScrollReveal>
+
+        <div className="mt-8 flex justify-center">
+          <Link
+            href="/gallery"
+            className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-6 py-3 text-sm font-semibold text-neutral-900 transition hover:border-neutral-400 hover:bg-neutral-50"
+          >
+            View more photos
+            <ArrowRight aria-hidden className="size-4" />
+          </Link>
+        </div>
       </div>
     </section>
   );
